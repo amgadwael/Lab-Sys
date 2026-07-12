@@ -1,5 +1,3 @@
-// script.js
-// Professional Dashboard JS (Vanilla) — Patients, Quick/Detailed Tests, Reports, Translations, Print, CSV
 
 (() => {
   // ---- Config / Storage keys ----
@@ -22,7 +20,6 @@
     lang: localStorage.getItem(LS_LANG) || "ar"
   };
 
-  // ---- i18n strings minimal for JS-updates ----
   const i18n_simple = {
     ar: { select_patient: "اختر المريض", no_reports: "لا توجد تقارير بعد", fill_required: "من فضلك املأ الحقول المطلوبة", confirm_delete: "هل أنت متأكد من الحذف؟", logout_confirm: "تأكيد تسجيل الخروج؟", logout_done: "تم تسجيل الخروج (محليًا)" },
     en: { select_patient: "Select patient", no_reports: "No reports yet", fill_required: "Please fill required fields", confirm_delete: "Delete permanently?", logout_confirm: "Confirm logout?", logout_done: "Logged out (local data cleared)" }
