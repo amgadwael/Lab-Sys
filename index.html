@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>نظام إدارة المعمل — لوحة تحكم</title>
+
+  <!-- Cairo font -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+  <!-- jsPDF for PDF export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.21/jspdf.plugin.autotable.min.js"></script>
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app" id="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" role="navigation" aria-label="Main sidebar">
+      <div class="brand">
+        <div class="logo">🏥</div>
+        <div class="title" data-i18n="app_title">نظام إدارة المعمل</div>
+      </div>
+
+      <nav class="menu" aria-label="Main menu">
+        <button class="menu-item active" data-section="dashboard"><i class="fa fa-chart-line"></i><span data-i18n="dashboard"> لوحة التحكم</span></button>
+        <button class="menu-item" data-section="patients"><i class="fa fa-user-injured"></i><span data-i18n="patients"> المرضى</span></button>
+        <button class="menu-item" data-section="quick-tests"><i class="fa fa-vial"></i><span data-i18n="quickTests"> التحليل السريع</span></button>
+        <button class="menu-item" data-section="detailed-analysis"><i class="fa fa-flask"></i><span data-i18n="detailedAnalysis"> تحليل مفصل</span></button>
+        <button class="menu-item" data-section="reports"><i class="fa fa-file-medical"></i><span data-i18n="reports"> التقارير</span></button>
+        <button class="menu-item" data-section="settings"><i class="fa fa-cog"></i><span data-i18n="settings"> الإعدادات</span></button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="langToggle" class="btn btn-light" aria-label="Switch language"><i class="fa fa-language"></i> <span id="langToggleText">EN</span></button>
+        <button id="logoutBtn" class="btn btn-danger" aria-label="Logout"><i class="fa fa-sign-out-alt"></i> <span data-i18n="logout">تسجيل خروج</span></button>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main" role="main">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="top-left">
+          <h1 id="appTitle" data-i18n="app_title">نظام إدارة المعمل</h1>
+        </div>
+        <div class="top-right">
+          <div class="search-box">
+            <input id="globalSearch" placeholder="ابحث باسم المريض أو التحليل..." aria-label="بحث">
+            <i class="fa fa-search"></i>
+          </div>
+        </div>
+      </header>
+
+      <!-- CONTENT -->
+      <section class="content">
+
+        <!-- DASHBOARD -->
+        <section id="section-dashboard" class="section active-section" aria-labelledby="appTitle">
+          <div class="cards-row">
+            <div class="card dash-card">
+              <div class="card-icon"><i class="fa fa-user-injured"></i></div>
+              <div class="card-body">
+                <div class="card-title" data-i18n="patients_today">مرضى اليوم</div>
+                <div class="card-value" id="patientsToday">0</div>
+              </div>
+            </div>
+
+            <div class="card dash-card">
+              <div class="card-icon"><i class="fa fa-vials"></i></div>
+              <div class="card-body">
+                <div class="card-title" data-i18n="tests_count">عدد التحاليل</div>
+                <div class="card-value" id="testsCount">0</div>
+              </div>
+            </div>
+
+            <div class="card dash-card">
+              <div class="card-icon"><i class="fa fa-money-bill-wave"></i></div>
+              <div class="card-body">
+                <div class="card-title" data-i18n="revenue_today">الدخل اليومي</div>
+                <div class="card-value" id="revenueToday">0 ج.م</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-forms">
+            <div class="panel">
+              <h3 data-i18n="quickPatientTitle">إضافة مريض سريع</h3>
+              <form id="quickPatientForm" class="form-grid" autocomplete="off">
+                <input id="quickName" placeholder="اسم المريض" required />
+                <input id="quickPhone" placeholder="رقم الهاتف" />
+                <input id="quickAge" type="number" placeholder="العمر" />
+                <button class="btn primary" type="submit" data-i18n="add_patient">إضافة مريض</button>
+              </form>
+            </div>
+
+            <div class="panel">
+              <h3 data-i18n="quickTestTitle">إضافة تحليل سريع</h3>
+              <form id="quickTestForm" class="form-grid" autocomplete="off">
+                <select id="quickPatientSelect" required>
+                  <option value="">{{select_patient}}</option>
+                </select>
+
+                <input id="quickTestName" placeholder="اسم التحليل (اكتبه)" required />
+                <select id="quickSampleType">
+                  <option value="">نوع العينة (اختياري)</option>
+                  <option value="دم">دم</option>
+                  <option value="بول">بول</option>
+                  <option value="براز">براز</option>
+                </select>
+
+                <input id="quickDoctor" placeholder="اسم الطبيب" />
+                <input id="quickCost" type="number" placeholder="التكلفة" />
+
+                <button class="btn primary" type="submit" data-i18n="add_test">إضافة تحليل</button>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- PATIENTS -->
+        <section id="section-patients" class="section">
+          <div class="panel">
+            <h3 data-i18n="patients">قائمة المرضى</h3>
+            <form id="patientForm" class="form-grid" autocomplete="off">
+              <input id="patientName" placeholder="اسم المريض" required />
+              <input id="patientPhone" placeholder="رقم الهاتف" />
+              <input id="patientAge" type="number" placeholder="العمر" />
+              <button class="btn primary" type="submit" data-i18n="add_patient">إضافة مريض</button>
+            </form>
+
+            <div class="table-wrap">
+              <table id="patientsTable" class="table" aria-label="Patients table">
+                <thead><tr><th>#</th><th>الاسم</th><th>الهاتف</th><th>العمر</th><th>تاريخ</th><th>إجراء</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- QUICK TESTS -->
+        <section id="section-quick-tests" class="section">
+          <div class="panel">
+            <h3 data-i18n="quickTests">التحاليل السريعة</h3>
+
+            <div class="table-wrap">
+              <table id="quickReportsTable" class="table" aria-label="Quick tests">
+                <thead>
+                  <tr>
+                    <th>#</th><th>المريض</th><th>التحليل</th><th>نوع العينة</th><th>الطبيب</th><th>السعر</th><th>التاريخ</th><th>إجراء</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- DETAILED ANALYSIS -->
+        <section id="section-detailed-analysis" class="section">
+          <div class="panel">
+            <h3 data-i18n="detailedAnalysis">تحليل مفصل</h3>
+
+            <form id="detailedAnalysisForm" class="form-grid" autocomplete="off">
+              <select id="detailedPatient" required>
+                <option value="">{{select_patient}}</option>
+              </select>
+
+              <input id="analysisName" placeholder="اسم التحليل (مثال: صورة دم كاملة)" required />
+
+              <select id="sampleType" required>
+                <option value="" disabled selected>اختر نوع العينة</option>
+                <option value="دم">دم</option>
+                <option value="بول">بول</option>
+                <option value="براز">براز</option>
+                <option value="مسحة">مسحة</option>
+                <option value="أخرى">أخرى</option>
+              </select>
+
+              <textarea id="medicalNotes" rows="3" placeholder="البيانات الطبية الإضافية / التحضيرات المطلوبة"></textarea>
+
+              <input id="analysisDoctor" placeholder="اسم الطبيب" required />
+              <input id="analysisCost" type="number" placeholder="التكلفة" />
+
+              <button id="addDetailedReportBtn" class="btn primary" type="button" data-i18n="addDetailedReport">إضافة تحليل مفصل</button>
+            </form>
+
+            <div class="table-wrap">
+              <table id="detailedReportsTable" class="table" aria-label="Detailed tests">
+                <thead>
+                  <tr>
+                    <th>#</th><th>المريض</th><th>التحليل</th><th>نوع العينة</th><th>ملاحظات</th><th>الطبيب</th><th>السعر</th><th>التاريخ</th><th>إجراء</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- REPORTS -->
+        <section id="section-reports" class="section">
+          <div class="panel">
+            <h3 data-i18n="reports">التقارير والكاشير</h3>
+
+            <div class="reports-header">
+              <div class="reports-controls">
+                <select id="printPatientSelect">
+                  <option value="">{{select_patient}}</option>
+                </select>
+
+                <select id="printLangSelect">
+                  <option value="ar">العربية</option>
+                  <option value="en">English</option>
+                </select>
+
+                <button id="printBtn" class="btn print"><i class="fa fa-print"></i> <span data-i18n="print">طباعة</span></button>
+                <button id="exportCSVBtn" class="btn small"><i class="fa fa-file-csv"></i> CSV</button>
+              </div>
+            </div>
+
+            <div class="table-wrap">
+              <table id="allReportsTable" class="table" aria-label="All reports">
+                <thead><tr><th>#</th><th>المريض</th><th>التحليل</th><th>الطبيب</th><th>السعر</th><th>التاريخ</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- SETTINGS -->
+        <section id="section-settings" class="section">
+          <div class="panel">
+            <h3 data-i18n="settings">الإعدادات</h3>
+            <div class="form-row">
+              <label data-i18n="language_setting">اللغة:</label>
+              <button id="langBtnTop" class="btn lang">EN</button>
+            </div>
+            <p class="muted">البيانات تحفظ محليًا في متصفحك (localStorage).</p>
+          </div>
+        </section>
+
+      </section>
+
+      <footer class="footer">© <span id="year"></span> — <span data-i18n="app_title">نظام إدارة المعمل</span></footer>
+    </main>
+  </div>
+
+  <!-- Main JS -->
+  <script src="script.js"></script>
+</body>
+</html>

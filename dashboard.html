@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم المدير</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1 class="header-title">لوحة تحكم المدير</h1>
+            <button id="logoutBtn" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                تسجيل خروج
+            </button>
+        </header>
+
+        <section class="summary-cards">
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-user-injured"></i></div>
+                <div class="card-content">
+                    <p class="card-label">مرضى اليوم</p>
+                    <span id="todayPatients" class="card-value">0</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-money-bill-wave"></i></div>
+                <div class="card-content">
+                    <p class="card-label">إجمالي الإيرادات</p>
+                    <span id="totalRevenue" class="card-value">0 ج.م</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-file-medical"></i></div>
+                <div class="card-content">
+                    <p class="card-label">إجمالي التقارير</p>
+                    <span id="totalReports" class="card-value">0</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="reports-section">
+            <div class="section-header">
+                <h2>تقارير شاملة</h2>
+                <div class="report-filters">
+                    <input type="date" id="reportDateFilter" class="filter-input" title="تصفية حسب التاريخ">
+                    <input type="text" id="reportSearchInput" class="filter-input" placeholder="بحث باسم المريض أو التحليل...">
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table id="fullReportsTable">
+                    <thead>
+                        <tr>
+                            <th>التاريخ</th>
+                            <th>الوقت</th>
+                            <th>اسم المريض</th>
+                            <th>التحليل</th>
+                            <th>النتيجة</th>
+                            <th>التكلفة</th>
+                            <th>الطبيب المعالج</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+    </div>
+    <script src="dashboard.js"></script>
+    <script src="admin-dashboard.js"></script>
+</body>
+</html>

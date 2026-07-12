@@ -1,0 +1,241 @@
+/*
+ * This file contains the combined and corrected CSS.
+ * It merges the background animation styles with the login form styles
+ * for a consistent and clean design.
+*/
+
+/* General Body & Background */
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0f172a, #1e293b); /* Dark blue/gray */
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    overflow: hidden;
+    position: relative;
+    color: #fff;
+}
+
+/* Chromosome Background Animation */
+.chromosomes {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0; left: 0;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.chromosomes span {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    color: rgba(80,80,80,0.3);
+    font-size: 36px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: float 12s linear infinite;
+}
+
+.chromosomes span::before {
+    content: "X";
+    font-family: Arial, sans-serif;
+}
+
+.chromosomes span:nth-child(1) { left: 10%; animation-duration: 14s; font-size: 30px; }
+.chromosomes span:nth-child(2) { left: 30%; animation-duration: 18s; font-size: 40px; }
+.chromosomes span:nth-child(3) { left: 50%; animation-duration: 12s; font-size: 35px; }
+.chromosomes span:nth-child(4) { left: 70%; animation-duration: 20s; font-size: 28px; }
+.chromosomes span:nth-child(5) { left: 85%; animation-duration: 15s; font-size: 45px; }
+.chromosomes span:nth-child(6) { left: 95%; animation-duration: 22s; font-size: 32px; }
+
+@keyframes float {
+    0% { top: 110%; transform: rotate(0deg); }
+    100% { top: -20%; transform: rotate(360deg); }
+}
+
+/* Corrected and Merged Login Button Styles */
+.login-btn {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 18px 48px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(135deg, #0077b6, #0096c7);
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    z-index: 10;
+    box-shadow: 
+        0 6px 15px rgba(0, 0, 0, 0.2),
+        inset 0 1px 2px rgba(255,255,255,0.3);
+    transition: all 0.3s ease;
+}
+
+.login-btn i {
+    font-size: 22px;
+}
+
+.login-btn:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, #0096c7, #00b4d8);
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.3),
+        inset 0 1px 2px rgba(255,255,255,0.4);
+}
+
+.login-btn:active {
+    transform: translateY(2px);
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.25),
+        inset 0 1px 2px rgba(255,255,255,0.3);
+}
+
+.login-btn::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 120%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        rgba(255,255,255,0.1) 0%,
+        rgba(255,255,255,0.5) 50%,
+        rgba(255,255,255,0.1) 100%
+    );
+    transform: skewX(-20deg);
+}
+
+.login-btn:hover::after {
+    left: 150%;
+    transition: left 0.8s ease;
+}
+
+/* Login Form Styles */
+.login-form {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.form-content {
+    background: #1e293b; /* Matches background */
+    color: #fff;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    width: 350px;
+    position: relative;
+}
+
+.form-content h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #334155;
+    background-color: #0f172a;
+    color: #fff;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #0077b6;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #0096c7;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    border: none;
+    background: transparent;
+    font-size: 28px;
+    cursor: pointer;
+    color: #94a3b8;
+    transition: color 0.3s;
+}
+
+.close-btn:hover {
+    color: #fff;
+}
+/* Login Form (Initially Hidden) */
+.login-form {
+    /* Basic settings for the pop-up */
+    display: none; /* We'll use JS to change this to 'flex' */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Form container that will animate */
+.form-content {
+    background: #1e293b;
+    color: #fff;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    width: 350px;
+    position: relative;
+    /* Animation properties for the initial state (hidden) */
+    opacity: 0;
+    transform: translateY(-50px);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+/* Class to be added by JavaScript to show the form with animation */
+.show-form .form-content {
+    opacity: 1;
+    transform: translateY(0);
+}
